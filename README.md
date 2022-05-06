@@ -12,6 +12,6 @@ gamma = Gamma()
 if there are no arguments, 
 then a natural C major is created
 """
-gamma.to_chromatic("minor") 
+gamma.to_chromatic("major") 
 print(gamma.get_gamma())
 ```
