@@ -44,23 +44,24 @@ class Gamma:
         return self.gamma
 
     def to_chromatic(self, gamma_type):
-        chromatic_up = {}
-        chromatic_down = {}
         if gamma_type == "major":
             chromatic_up = gamma_converter(self.gamma_up, [0, 1, 3, 4], [6])
             chromatic_down = gamma_converter(self.gamma_down, [4], [1, 2, 5, 6])
             self.gamma = [chromatic_up, chromatic_down]
+        if gamma_type == "minor":
+            chromatic_up = gamma_converter(self.gamma_up, [2, 3, 5, 6], [1])
+            chromatic_down = gamma_converter(self.gamma_down, [1, 2, 4, 5], [6])
+            self.gamma = [chromatic_up, chromatic_down]
 
 
 def main():
-    """gamma = Gamma(
+    gamma = Gamma(
         {
-            "re": None, "mi": None, "fa": "#", "sol": None,
-            "la": None, "si": None, "do": "#", "re2": None,
+            "la": None, "si": None, "do": None, "re": None,
+            "mi": None, "fa": None, "sol": None, "la2": None
         }
-    )"""
-    gamma = Gamma()
-    gamma.to_chromatic("major")
+    )
+    gamma.to_chromatic("minor")
     print(gamma.get_gamma())
 
 
