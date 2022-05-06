@@ -1,9 +1,28 @@
 def note_upper(mus_sign):
-    return "#" if mus_sign is None else "X"
+    convert_dict = {"BB": "B", "B": None, None: "#", "#": "X"}
+    return convert_dict[mus_sign]
 
 
 def note_lower(mus_sign):
-    return "B" if mus_sign is None else "BB"
+    convert_dict = {"X": "#", "#": None, None: "B", "B": "BB"}
+    return convert_dict[mus_sign]
+
+
+def gamma_converter(gamma, upper_li, lower_li):
+    res = {}
+    counter = -1
+    for k, v in gamma.items():
+        counter += 1
+        if counter in upper_li:
+            res[k] = note_upper(v)
+            continue
+        if counter in lower_li:
+            res[k] = note_lower(v)
+            continue
+        else:
+            res[k] = v
+
+    return res
 
 
 class Gamma:
@@ -28,27 +47,19 @@ class Gamma:
         chromatic_up = {}
         chromatic_down = {}
         if gamma_type == "major":
-            counter = -1
-            for k, v in self.gamma_up.items():
-                counter += 1
-                if counter in [0, 1, 3, 4]:
-                    chromatic_up[k] = note_upper(v)
-                    continue
-                if counter == 6:
-                    chromatic_up[k] = note_lower(v)
-                    continue
-                else:
-                    chromatic_up[k] = v
+            chromatic_up = gamma_converter(self.gamma_up, [0, 1, 3, 4], [6])
+            chromatic_down = gamma_converter(self.gamma_down, [4], [1, 2, 5, 6])
             self.gamma = [chromatic_up, chromatic_down]
 
 
 def main():
-    gamma = Gamma(
+    """gamma = Gamma(
         {
             "re": None, "mi": None, "fa": "#", "sol": None,
             "la": None, "si": None, "do": "#", "re2": None,
         }
-    )
+    )"""
+    gamma = Gamma()
     gamma.to_chromatic("major")
     print(gamma.get_gamma())
 
